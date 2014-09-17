@@ -1,11 +1,10 @@
 <IfModule mod_rewrite.c>
-	RewriteEngine on
+  RewriteEngine on
 
   RewriteRule ^ - [E=protossl]
   RewriteCond %{HTTPS} on
   RewriteRule ^ - [E=protossl:s]
 
-  RewriteCond %{HTTP_HOST} .
-  RewriteCond %{HTTP_HOST} !^www\. [NC]
-  RewriteRule ^ http%{ENV:protossl}://www.%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+  RewriteCond %{HTTP_HOST} ^www\.(.+)$ [NC]
+  RewriteRule ^ http%{ENV:protossl}://%1%{REQUEST_URI} [L,R=301]
 </IfModule>
